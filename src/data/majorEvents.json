@@ -1,0 +1,20 @@
+[
+  {
+    "magnitude": 7.7,
+    "title": "2001 Gujarat Earthquake",
+    "date": "26 January 2001",
+    "description": "Epicenter near Bhuj, caused widespread damage and over 20,000 casualties."
+  },
+  {
+    "magnitude": 6.9,
+    "title": "2011 Sikkim Earthquake",
+    "date": "18 September 2011",
+    "description": "Affected India, Nepal, Bhutan and Tibet with significant damage in mountainous regions."
+  },
+  {
+    "magnitude": 5.7,
+    "title": "2015 Manipur Earthquake",
+    "date": "4 January 2015",
+    "description": "Epicenter in Tamenglong district, affected North-East India and Bangladesh."
+  }
+]

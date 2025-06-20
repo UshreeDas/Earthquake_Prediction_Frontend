@@ -1,11 +1,13 @@
-import { Button } from "@/components/ui/button"
+import Body from './Component/Body/Body.jsx';
+import About from './Component/About/About';
+import Footer from './Component/Footer/Footer';
 
-function App() {
+export default function App() {
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center">
-      <Button>Click me</Button>
+    <div className="bg-[#F5F5F5DE] min-h-screen text-black">
+      <Body />
+      <About />
+      <Footer />
     </div>
-  )
+  );
 }
-
-export default App
