@@ -75,13 +75,17 @@ export default function Body() {
             <div key={index} className="mb-4 flex items-start gap-4">
               {/* Magnitude Circle */}
               <div
-                className={`
-                  h-12 w-12 flex items-center justify-center rounded-full font-bold text-base leading-none
-                  ${getMagnitudeColor(event.magnitude)}
-                `}
-              >
-                {event.magnitude}
-              </div>
+  className={`
+    w-12 h-12 flex items-center justify-center 
+    rounded-full font-bold text-base 
+    
+    ${getMagnitudeColor(event.magnitude)}
+  `}
+  style={{ aspectRatio: '1 / 1' }} // ensures perfect circle even if resized
+>
+  {event.magnitude}
+</div>
+
 
               {/* Event Details */}
               <div>

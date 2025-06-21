@@ -1,3 +1,5 @@
+
+import "./App.css";
 import Navbar from "./Component/NavBar/Navbar";
 import HeroSection from "./Component/HeroSection/HeroSection"; 
 import Body from './Component/Body/Body.jsx';
@@ -13,5 +15,8 @@ export default function App() {
       <About />
       <Footer />
     </>
+  
   );
 }
+
+
