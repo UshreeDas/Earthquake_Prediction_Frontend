@@ -2,7 +2,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <section id="about" className="bg-white px-6 md:px-20 py-16">
+    <section id="about" className="bg-white px-6 md:px-10 py-16">
       <h2 className="text-3xl font-bold text-center mb-2">About Bhūkamp Sūchak</h2>
       <p className="text-center text-gray-600 mb-10 max-w-3xl mx-auto">
         Our mission is to advance earthquake prediction science and provide accessible information
