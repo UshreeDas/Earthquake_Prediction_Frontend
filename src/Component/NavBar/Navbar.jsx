@@ -1,6 +1,15 @@
+// File: src/Component/NavBar/Navbar.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom"; // ✅ Import Link from react-router-dom
 import Logo from "../../assets/logo.svg";
-import { FaBars, FaTimes, FaHome, FaChartLine, FaHistory, FaInfoCircle } from "react-icons/fa";
+import {
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaChartLine,
+  FaHistory,
+  FaInfoCircle,
+} from "react-icons/fa";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,7 +35,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 text-base font-semibold">
-            <a href="#home" className="hover:underline">Home</a>
+            <Link to="/" className="hover:underline">Home</Link>
             <a href="#prediction" className="hover:underline">Prediction</a>
             <a href="#historical" className="hover:underline">Historical Data</a>
             <a href="#about" className="hover:underline">About</a>
@@ -41,32 +50,29 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Menu (Outside Header) */}
-    {isOpen && (
-  <div className="md:hidden fixed top-18 right-0 py-4 flex justify-end z-50">
-    <div className="bg-orange-700/90 w-96 shadow-lg p-7 space-y-7 text-lg font-semibold text-white">
-
-      <div className="flex items-center space-x-3">
-        <FaHome />
-        <a href="#home" onClick={() => setIsOpen(false)} className="hover:underline">Home</a>
-      </div>
-      <div className="flex items-center space-x-3">
-        <FaChartLine />
-        <a href="#prediction" onClick={() => setIsOpen(false)} className="hover:underline">Prediction</a>
-      </div>
-      <div className="flex items-center space-x-3">
-        <FaHistory />
-        <a href="#historical" onClick={() => setIsOpen(false)} className="hover:underline">Historical Data</a>
-      </div>
-      <div className="flex items-center space-x-3">
-        <FaInfoCircle />
-        <a href="#about" onClick={() => setIsOpen(false)} className="hover:underline">About</a>
-      </div>
-    </div>
-  </div>
-)}
-
-
+      {/* Mobile Menu */}
+      {isOpen && (
+        <div className="md:hidden fixed top-18 right-0 py-4 flex justify-end z-50">
+          <div className="bg-orange-700/90 w-96 shadow-lg p-7 space-y-7 text-lg font-semibold text-white">
+            <div className="flex items-center space-x-3">
+              <FaHome />
+              <Link to="/" onClick={() => setIsOpen(false)} className="hover:underline">Home</Link>
+            </div>
+            <div className="flex items-center space-x-3">
+              <FaChartLine />
+              <a href="#prediction" onClick={() => setIsOpen(false)} className="hover:underline">Prediction</a>
+            </div>
+            <div className="flex items-center space-x-3">
+              <FaHistory />
+              <a href="#historical" onClick={() => setIsOpen(false)} className="hover:underline">Historical Data</a>
+            </div>
+            <div className="flex items-center space-x-3">
+              <FaInfoCircle />
+              <a href="#about" onClick={() => setIsOpen(false)} className="hover:underline">About</a>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
