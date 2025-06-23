@@ -17,14 +17,11 @@ export default function FinalDashboard() {
   useEffect(() => {
     axios.get("http://localhost:8000/historical-data").then((res) => {
       const allData = res.data.data;
-
       const years = allData.map((d) => d.year_eq);
       const maxYear = Math.max(...years);
-
       const lastFiveYearsData = allData.filter(
         (d) => d.year_eq >= maxYear - 4
       );
-
       setData(allData);
       setFiltered(lastFiveYearsData);
     });
@@ -60,79 +57,105 @@ export default function FinalDashboard() {
   };
 
   return (
-    <div className="p-4 bg-white">
+    <div className="p-4 space-y-6">
       {/* Banner */}
-      <div className="w-full bg-blue-200 py-4 mb-4 text-center rounded-md shadow">
-        <h1 className="text-3xl font-bold text-red-800 uppercase tracking-wide">
+      <div className="w-full bg-gradient-to-r from-blue-300 to-blue-500 py-4 mb-4 text-center rounded-md shadow-[0_0_20px_rgba(0,0,0,0.15)]">
+        <h1 className="text-3xl font-extrabold text-white uppercase tracking-wider">
           Earthquake Data Dashboard
         </h1>
       </div>
 
-      {/* Filters Under Banner */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-2">
-        <DashboardSection title="Filter by Year" className="bg-pink-200">
-          <FilterControls
-            years={years}
-            selectedYear={selectedYear}
-            setSelectedYear={setSelectedYear}
-          />
-        </DashboardSection>
+      {/* Filters and Reset Button */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr_auto] gap-4 mb-5 items-center">
+  {/* Filter by Year */}
+<DashboardSection>
+  <div className=" gap-2">
+    <FilterControls
+      years={years}
+      selectedYear={selectedYear}
+      setSelectedYear={setSelectedYear}
+    />
+  </div>
+</DashboardSection>
 
-        <DashboardSection title="Magnitude Category" className="bg-yellow-200">
-          <div className="grid grid-cols-3 gap-2">
-            {["Moderate", "Severe", "Strong"].map((cat) => (
-              <button
-                key={cat}
-                className={`rounded-md py-2 font-semibold ${
-                  selectedCategory === cat
-                    ? "bg-yellow-500 text-white"
-                    : "bg-white text-black"
-                }`}
-                onClick={() =>
-                  setSelectedCategory((prev) => (prev === cat ? "" : cat))
-                }
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </DashboardSection>
-      </div>
-
-      {/* Reset Button */}
-      <div className="flex justify-end mb-6">
+{/* Magnitude Category */}
+<DashboardSection className="bg-yellow-200">
+  <div className="flex items-center gap-2"> 
+    <span className="font-semibold text-lg">Magnitude Category:</span> {/* Text like Filter by Year */}
+    <div className="flex gap-2">
+      {["Moderate", "Severe", "Strong"].map((cat) => (
         <button
-          onClick={handleReset}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-2 px-4 rounded"
+          key={cat}
+          className={`rounded-md py-2 px-4 font-semibold ${
+            selectedCategory === cat
+              ? "bg-yellow-500 text-white"
+              : "bg-white text-black"
+          }`}
+          onClick={() =>
+            setSelectedCategory((prev) => (prev === cat ? "" : cat))
+          }
         >
-          Reset Filters
+          {cat}
         </button>
-      </div>
+      ))}
+    </div>
+  </div>
+</DashboardSection>
+
+{/* Reset Button */}
+<div className="flex justify-end self-start mt-6">
+  <button
+    onClick={handleReset}
+    className="bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-6 rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+  >
+    Reset Filters
+  </button>
+</div>
+</div>
 
       {/* KPI Cards */}
       <KPICards data={filtered} />
 
-      {/* Middle Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
-        <DashboardSection title="Seismic HeatMap" className="bg-orange-100">
-          <HeatMap data={filtered} />
-        </DashboardSection>
-
-        <DashboardSection title="Distribution by Magnitude" className="bg-pink-100">
-          <PieByMagnitude data={filtered} />
-        </DashboardSection>
+      {/* Middle Grid: HeatMap and Pie Chart Inline */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-orange-50 rounded-md flex items-center justify-center">
+    <DashboardSection title="Seismic HeatMap" className="w-full">
+      <div className="w-full aspect-[4/3]">
+        <HeatMap data={filtered} />
       </div>
+    </DashboardSection>
+  </div>
+
+  <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-purple-50 rounded-md flex items-center justify-center">
+    <DashboardSection title="Distribution by Magnitude" className="w-full">
+      <div className="w-full aspect-[4/3]">
+        <PieByMagnitude data={filtered} />
+      </div>
+    </DashboardSection>
+  </div>
+</div>
 
       {/* Bottom Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <DashboardSection title="Total Earthquakes of Last 5 Years" className="bg-green-100">
-          <BarLineCharts data={filtered} />
-        </DashboardSection>
-
-        <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="bg-green-100">
-          <BarByCategory data={filtered} />
-        </DashboardSection>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  {/* Total Earthquakes of Last 5 Years */}
+  <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-green-50 rounded-md flex items-center justify-center">
+    <DashboardSection title="Total Earthquakes of Last 5 Years" className="w-full">
+      <div className="w-full aspect-[4/3]"> {/* Maintains 4:3 ratio */}
+        <BarLineCharts data={filtered} />
       </div>
+    </DashboardSection>
+  </div>
+
+  {/* Earthquake Counts by Magnitude Range (Last 5 Years) */}
+  <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-blue-50 rounded-md flex items-center justify-center">
+    <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="w-full">
+      <div className="w-full aspect-[4/3]"> {/* Same 4:3 ratio */}
+        <BarByCategory data={filtered} />
+      </div>
+    </DashboardSection>
+  </div>
+</div>
+
     </div>
   );
 }
