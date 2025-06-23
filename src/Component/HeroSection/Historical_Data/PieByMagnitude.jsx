@@ -26,7 +26,7 @@ export default function PieByMagnitude({ data }) {
 
   const chartData = Object.entries(bins)
     .map(([name, value]) => ({ name, value }))
-    .filter((d) => d.value > 0); // Only show labels for non-zero slices
+    .filter((d) => d.value > 0);
 
   const renderCustomLabel = ({ name, percent, x, y }) => {
     return (
@@ -44,17 +44,17 @@ export default function PieByMagnitude({ data }) {
   };
 
   return (
-    <div className="w-full h-80 flex items-center justify-center">
+    <div className="w-full h-96 flex items-center justify-center">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
             data={chartData}
             dataKey="value"
             nameKey="name"
-            cx="50%"
+            cx="40%"  // shift pie slightly left to make space for legend
             cy="50%"
-            outerRadius="75%"
-            labelLine={true}
+            outerRadius="85%" // enlarge pie
+            labelLine={false}
             label={renderCustomLabel}
           >
             {chartData.map((_, i) => (
@@ -62,7 +62,11 @@ export default function PieByMagnitude({ data }) {
             ))}
           </Pie>
           <Tooltip />
-          <Legend verticalAlign="middle" align="right" layout="vertical" />
+          <Legend 
+            verticalAlign="middle" 
+            align="right" 
+            layout="vertical"
+          />
         </PieChart>
       </ResponsiveContainer>
     </div>
