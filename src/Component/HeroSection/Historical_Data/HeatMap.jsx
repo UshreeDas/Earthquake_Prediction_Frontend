@@ -1,12 +1,20 @@
-import { useState } from "react";
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, CircleMarker, Tooltip, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { Maximize2, Minimize2 } from "lucide-react";
+import axios from "axios";
 
 export default function HeatMap({ data }) {
   const [isFullScreen, setIsFullScreen] = useState(false);
+  const [faultLines, setFaultLines] = useState([]);
 
   const toggleFullScreen = () => setIsFullScreen(!isFullScreen);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/fault-lines").then((res) => {
+      setFaultLines(res.data.data);
+    });
+  }, []);
 
   const mapElement = (
     <MapContainer
@@ -36,6 +44,16 @@ export default function HeatMap({ data }) {
           </Tooltip>
         </CircleMarker>
       ))}
+      {faultLines.map((line, i) => (
+        <Polyline
+          key={i}
+          positions={[
+            [line.Start_Lat, line.Start_Lon],
+            [line.End_Lat, line.End_Lon],
+          ]}
+          pathOptions={{ color: "black", weight: 2 }}
+        />
+      ))}
     </MapContainer>
   );
 
@@ -48,6 +66,10 @@ export default function HeatMap({ data }) {
       <div className="flex items-center gap-2">
         <span className="w-3 h-3 rounded-full bg-blue-600 inline-block"></span>
         <span>Other Zones</span>
+      </div>
+      <div className="mt-1">
+        <span className="inline-block w-3 h-1 bg-black mr-2 align-middle"></span>
+        <span>Fault Line</span>
       </div>
     </div>
   );

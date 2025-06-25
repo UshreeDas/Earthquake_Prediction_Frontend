@@ -5,7 +5,7 @@ export default function FilterControls({ years, selectedYear, setSelectedYear })
       <select
         value={selectedYear}
         onChange={(e) => setSelectedYear(Number(e.target.value))}
-        className="border p-2 rounded"
+        className="py-2 px-4 border rounded-md font-semibold text-black bg-white border-red-300 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
       >
         <option value="">All</option>
         {years.map((year) => (

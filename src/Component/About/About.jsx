@@ -1,4 +1,5 @@
 import React from "react";
+import { AlertTriangle } from "lucide-react";
 
 export default function About() {
   return (
@@ -10,6 +11,7 @@ export default function About() {
       </p>
 
       <div className="grid md:grid-cols-2 gap-10 items-start">
+        {/* Left Section */}
         <div>
           <h3 className="text-xl font-semibold mb-3">Our Approach</h3>
           <p className="text-gray-700 mb-5">
@@ -35,49 +37,33 @@ export default function About() {
           </button>
         </div>
 
-        <div className="bg-red-50 border border-red-100 shadow-sm rounded-xl p-6">
-          <h3 className="text-lg font-semibold mb-2">Stay Informed</h3>
-          <p className="text-gray-600 text-sm mb-6">
-            Subscribe to receive alerts and updates about seismic activity in your region of India.
+        {/* Right Section - Prediction Methodology */}
+        <div>
+          <h3 className="text-xl font-semibold mb-3">Prediction Methodology</h3>
+           <p className="text-gray-700 mb-4">
+        While the technology continues to evolve, this framework represents a significant step
+        forward in proactive seismic risk monitoring. We believe that timely insights, even if
+        probabilistic, can contribute meaningfully to disaster preparedness and public safety.
+      </p>
+          <p className="text-gray-700 mb-3">
+            Our prediction model combines multiple data sources:
           </p>
-
-          <form className="space-y-4">
-            <input
-              type="text"
-              placeholder="Your name"
-              className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-            <input
-              type="tel"
-              placeholder="+91 XXXXXXXXXX"
-              className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400"
-            />
-            <select className="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:ring-2 focus:ring-red-400">
-              <option>Select your state</option>
-              <option>West Bengal</option>
-              <option>Maharashtra</option>
-              <option>Delhi</option>
-              <option>Gujarat</option>
-              <option>Tamil Nadu</option>
-            </select>
-            <div className="flex items-start gap-2">
-              <input type="checkbox" />
-              <label className="text-sm text-gray-600">
-                I agree to receive notifications and accept the privacy policy
-              </label>
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold py-2 rounded"
-            >
-              Subscribe
-            </button>
-          </form>
+          <ul className="text-gray-700 list-none space-y-2 mb-6">
+            <li>🟠 Historical seismic data patterns</li>
+            <li>🟠 Tectonic plate movement monitoring</li>
+            <li>🟠 Ground deformation measurements</li>
+            <li>🟠 Changes in groundwater levels</li>
+            <li>🟠 Soil and rock types in different zones</li>
+            <li>🟠 Machine learning analysis of precursor events</li>
+          </ul>
+          {/* Warning Box with Background */}
+          <div className="bg-yellow-100 border-l-4 border-yellow-400 text-yellow-800 p-4 text-sm rounded flex items-start gap-2">
+            <AlertTriangle className="w-5 h-5 mt-0.5 text-yellow-600" />
+            <span>
+              Earthquake prediction is still an evolving science. Our models provide probability
+              estimates, not certainties.
+            </span>
+          </div>
         </div>
       </div>
     </section>

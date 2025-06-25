@@ -1,3 +1,10 @@
+import {
+  Activity,
+  TrendingUp,
+  ArrowDownCircle,
+  AlertTriangle
+} from "lucide-react";
+
 export default function KPICards({ data }) {
   const totalEvents = data.length;
 
@@ -9,28 +16,44 @@ export default function KPICards({ data }) {
     ? (data.reduce((sum, d) => sum + d.depth_eq, 0) / totalEvents).toFixed(2)
     : "0.00";
 
-  const highRisk = data.filter(d => d.seismic_hazard_fault === "High").length;
+  const highRisk = data.filter((d) => d.seismic_hazard_fault === "High").length;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <div className="bg-red-100 p-4 rounded-xl shadow">
-        <p className="text-sm text-gray-600">Total Earthquakes</p>
-        <p className="text-2xl font-bold">{totalEvents}</p>
+      {/* Total Earthquakes */}
+      <div className="bg-red-300 p-4 rounded-xl shadow flex justify-between items-center">
+        <div>
+          <p className="text-sm text-gray-600">Total Earthquakes</p>
+          <p className="text-2xl font-bold">{totalEvents}</p>
+        </div>
+        <Activity className="text-red-600 w-8 h-8" />
       </div>
 
-      <div className="bg-yellow-100 p-4 rounded-xl shadow">
-        <p className="text-sm text-gray-600">Average Magnitude</p>
-        <p className="text-2xl font-bold">{avgMagnitude}</p>
+      {/* Average Magnitude */}
+      <div className="bg-yellow-300 p-4 rounded-xl shadow flex justify-between items-center">
+        <div>
+          <p className="text-sm text-gray-600">Average Magnitude</p>
+          <p className="text-2xl font-bold">{avgMagnitude}</p>
+        </div>
+        <TrendingUp className="text-yellow-800 w-8 h-8" />
       </div>
 
-      <div className="bg-blue-100 p-4 rounded-xl shadow">
-        <p className="text-sm text-gray-600">Average Depth</p>
-        <p className="text-2xl font-bold">{avgDepth}</p>
+      {/* Average Depth */}
+      <div className="bg-blue-300 p-4 rounded-xl shadow flex justify-between items-center">
+        <div>
+          <p className="text-sm text-gray-600">Average Depth</p>
+          <p className="text-2xl font-bold">{avgDepth}</p>
+        </div>
+        <ArrowDownCircle className="text-blue-800 w-8 h-8" />
       </div>
 
-      <div className="bg-green-100 p-4 rounded-xl shadow">
-        <p className="text-sm text-gray-600">High Risk Events</p>
-        <p className="text-2xl font-bold">{highRisk}</p>
+      {/* High Risk Events */}
+      <div className="bg-green-300 p-4 rounded-xl shadow flex justify-between items-center">
+        <div>
+          <p className="text-sm text-gray-900">High Risk Events</p>
+          <p className="text-2xl font-bold">{highRisk}</p>
+        </div>
+        <AlertTriangle className="text-green-600 w-8 h-8" />
       </div>
     </div>
   );
