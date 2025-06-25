@@ -7,12 +7,15 @@ import HeatMap from "./HeatMap";
 import PieByMagnitude from "./PieByMagnitude";
 import BarByCategory from "./BarByCategory";
 import DashboardSection from "../../../components/ui/DashboardSection";
+import LoadingSpinner from "@/components/ui/LoadingSpinner"; // adjust path if needed
+
 
 export default function FinalDashboard() {
   const [data, setData] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [isLoading, setIsLoading] = useState(true); //  loading state
 
   useEffect(() => {
     axios.get("http://localhost:8000/historical-data").then((res) => {
@@ -22,7 +25,10 @@ export default function FinalDashboard() {
       const lastFiveYearsData = allData.filter((d) => d.year_eq >= maxYear - 4);
       setData(allData);
       setFiltered(lastFiveYearsData);
-    });
+    })
+      .finally(() => {
+        setIsLoading(false); //  disable loading once done
+      });
   }, []);
 
   useEffect(() => {
@@ -54,103 +60,96 @@ export default function FinalDashboard() {
     setSelectedCategory("");
   };
 
+  // display loading spinner while data is loading
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <LoadingSpinner text="Loading Earthquake Dashboard..." />
+      </div>
+    );
+  }
+
+
   return (
+
     <div className="p-4 space-y-6">
       {/* Banner */}
-      <div className="w-full bg-gradient-to-r from-blue-300 to-blue-500 py-4 mb-4 text-center rounded-md shadow-[0_0_20px_rgba(0,0,0,0.15)]">
-        <h1 className="text-3xl font-extrabold text-white uppercase tracking-wider">
+      <div className="w-full  py-4 mb-4 text-center ">
+        <h1 className="text-3xl font-extrabold text-red-600 uppercase tracking-wider">
+
           Earthquake Data Dashboard
         </h1>
       </div>
 
       {/* Filters Row */}
-<div className="flex flex-wrap items-center justify-start gap-x-10 gap-y-2 mb-5">
+      <div className="flex flex-wrap items-center justify-start gap-x-10 gap-y-2 mb-5">
 
-  {/* Filter by Year */}
-  <div className="flex items-center gap-2">
-    <span className="font-semibold text-lg">Filter by Year:</span>
-    <FilterControls
-      years={years}
-      selectedYear={selectedYear}
-      setSelectedYear={setSelectedYear}
-    />
-  </div>
+        {/* Filter by Year */}
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-lg">Filter by Year:</span>
+          <FilterControls
+            years={years}
+            selectedYear={selectedYear}
+            setSelectedYear={setSelectedYear}
+          />
+        </div>
 
-  {/* Magnitude Category */}
- <div className="flex items-center gap-2">
-  <span className="font-semibold text-lg">Magnitude Category:</span>
-  <div className="flex gap-2">
-    {["Moderate", "Severe", "Strong"].map((cat) => (
-      <button
-        key={cat}
-        className={`rounded-md py-2 px-4 font-semibold border transition-colors duration-200
-          ${selectedCategory === cat
-            ? "bg-yellow-500 text-white border-yellow-500"
-            : "bg-white text-black border-gray-300 hover:bg-yellow-100 hover:border-yellow-400"
-          }`}
-        onClick={() =>
-          setSelectedCategory((prev) => (prev === cat ? "" : cat))
-        }
-      >
-        {cat}
-      </button>
-    ))}
-  </div>
-</div>
+        {/* Magnitude Category */}
+        <div className="flex items-center gap-2">
+          <span className="font-semibold text-lg">Magnitude Category:</span>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="py-2 px-4 border rounded-md font-semibold text-black bg-white border-red-300 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+          >
+            <option value="">All</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Severe">Severe</option>
+            <option value="Strong">Strong</option>
+          </select>
+        </div>
 
 
-  {/* Reset Button */}
-  <div className="flex">
-    <button
-      onClick={handleReset}
-      className="bg-red-400 hover:bg-red-500 text-white font-semibold py-2 px-6 rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
-    >
-      Reset Filters
-    </button>
-  </div>
 
-</div>
+        {/* Reset Button */}
+        <div className="flex">
+          <button
+            onClick={handleReset}
+            className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-6 rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+          >
+            Reset Filters
+          </button>
+        </div>
 
+      </div>
 
       {/* KPI Cards */}
       <KPICards data={filtered} />
 
       {/* Middle Grid: HeatMap and Pie Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-orange-50 rounded-md flex items-center justify-center">
-          <DashboardSection title="Seismic HeatMap" className="w-full">
-            <div className="w-full aspect-[4/3]">
-              <HeatMap data={filtered} />
-            </div>
-          </DashboardSection>
-        </div>
 
-        <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-purple-50 rounded-md flex items-center justify-center">
-          <DashboardSection title="Distribution by Magnitude" className="w-full">
-            <div className="w-full aspect-[4/3]">
-              <PieByMagnitude data={filtered} />
-            </div>
-          </DashboardSection>
-        </div>
+        <DashboardSection title="Seismic HeatMap" className="w-full">
+          <HeatMap data={filtered} />
+        </DashboardSection>
+
+        <DashboardSection title="Distribution by Magnitude" className="w-full">
+          <PieByMagnitude data={filtered} />
+        </DashboardSection>
+
       </div>
 
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-green-50 rounded-md flex items-center justify-center">
-          <DashboardSection title="Total Earthquakes of Last 5 Years" className="w-full">
-            <div className="w-full aspect-[4/3]">
-              <BarLineCharts data={filtered} />
-            </div>
-          </DashboardSection>
-        </div>
 
-        <div className="shadow-[0_0_20px_rgba(0,0,0,0.15)] p-4 bg-blue-50 rounded-md flex items-center justify-center">
-          <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="w-full">
-            <div className="w-full aspect-[4/3]">
-              <BarByCategory data={filtered} />
-            </div>
-          </DashboardSection>
-        </div>
+        <DashboardSection title="Total Earthquakes of Last 5 Years" className="w-full">
+          <BarLineCharts data={filtered} />
+        </DashboardSection>
+
+        <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="w-full">
+          <BarByCategory data={filtered} />
+        </DashboardSection>
+
       </div>
     </div>
   );
