@@ -98,10 +98,10 @@ export default function FinalDashboard() {
         <div className="flex items-center gap-2">
           <span className="font-semibold text-lg">Magnitude Category:</span>
           <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="py-2 px-4 border rounded-md font-semibold text-black bg-white border-red-300 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
-          >
+  value={selectedCategory}
+  onChange={(e) => setSelectedCategory(e.target.value)}
+  className="h-9 px-4 border rounded-md font-semibold text-black bg-white border-red-300 hover:border-red-400 focus:outline-none focus:ring-2 focus:ring-red-400"
+>
             <option value="">All</option>
             <option value="Moderate">Moderate</option>
             <option value="Severe">Severe</option>
@@ -114,13 +114,12 @@ export default function FinalDashboard() {
         {/* Reset Button */}
         <div className="flex">
           <button
-            onClick={handleReset}
-            className="bg-red-500 hover:bg-red-400 text-white font-semibold py-2 px-6 rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
-          >
+  onClick={handleReset}
+  className="h-9 px-6 bg-red-500 hover:bg-red-400 text-white font-semibold rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
+>
             Reset Filters
           </button>
         </div>
-
       </div>
 
       {/* KPI Cards */}
@@ -129,11 +128,11 @@ export default function FinalDashboard() {
       {/* Middle Grid: HeatMap and Pie Chart */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <DashboardSection title="Seismic HeatMap" className="w-full">
+        <DashboardSection title="Seismic HeatMap" className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <HeatMap data={filtered} />
         </DashboardSection>
 
-        <DashboardSection title="Distribution by Magnitude" className="w-full">
+        <DashboardSection title="Distribution by Magnitude" className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <PieByMagnitude data={filtered} />
         </DashboardSection>
 
@@ -142,11 +141,11 @@ export default function FinalDashboard() {
       {/* Bottom Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-        <DashboardSection title="Total Earthquakes of Last 5 Years" className="w-full">
+        <DashboardSection title="Total Earthquakes of Last 5 Years" className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <BarLineCharts data={filtered} />
         </DashboardSection>
 
-        <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="w-full">
+        <DashboardSection title="Earthquake Counts by Magnitude Range (Last 5 Years)" className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]">
           <BarByCategory data={filtered} />
         </DashboardSection>
 

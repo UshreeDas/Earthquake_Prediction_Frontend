@@ -51,11 +51,11 @@ export default function PieByMagnitude({ data }) {
             data={chartData}
             dataKey="value"
             nameKey="name"
-            cx="40%"  // shift pie slightly left to make space for legend
+            cx="40%"  
             cy="50%"
             outerRadius="85%" // enlarge pie
             labelLine={false}
-            label={renderCustomLabel}
+            label={false}
           >
             {chartData.map((_, i) => (
               <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
