@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom"; // ✅ Import Link from react-router-dom
 import Logo from "../../assets/logo.svg";
+import historicalData from "../HeroSection/Historical_Data/Final_Dashboard"
 import {
   FaBars,
   FaTimes,
@@ -37,7 +38,7 @@ export default function Navbar() {
           <nav className="hidden md:flex space-x-8 text-base font-semibold">
             <Link to="/" className="hover:underline">Home</Link>
             <a href="#prediction" className="hover:underline">Prediction</a>
-            <a href="#historical" className="hover:underline">Historical Data</a>
+            <Link to="/FinalDashboard" className="hover:underline">Historical Data</Link>
             <a href="#about" className="hover:underline">About</a>
           </nav>
 
@@ -64,7 +65,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-center space-x-3">
               <FaHistory />
-              <a href="#historical" onClick={() => setIsOpen(false)} className="hover:underline">Historical Data</a>
+              <Link to="/FinalDashboard" onClick={() => setIsOpen(false)} className="hover:underline">Historical Data</Link>
             </div>
             <div className="flex items-center space-x-3">
               <FaInfoCircle />
