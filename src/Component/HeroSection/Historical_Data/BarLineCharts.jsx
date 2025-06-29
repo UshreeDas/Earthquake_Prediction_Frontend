@@ -11,11 +11,13 @@ import {
 
 export default function BarLineCharts({ data }) {
   return (
-    <div className="w-full h-96 mb-6">
+    <div className="w-full h-70 mb-4">
       <ResponsiveContainer>
         <LineChart data={data}>
           <CartesianGrid stroke="#ccc" />
           <XAxis dataKey="year_eq" />
+          
+          {/* Y-axis for Depth (Left) */}
           <YAxis
             yAxisId="left"
             label={{
@@ -23,9 +25,14 @@ export default function BarLineCharts({ data }) {
               angle: -90,
               position: "insideLeft",
               offset: 10,
-              style: { textAnchor: "middle", fill: "#3b82f6" }
+              style: {
+                textAnchor: "middle",
+                fill: "#098486", // Teal
+              },
             }}
           />
+
+          {/* Y-axis for Magnitude (Right) */}
           <YAxis
             yAxisId="right"
             orientation="right"
@@ -34,24 +41,32 @@ export default function BarLineCharts({ data }) {
               angle: -90,
               position: "insideRight",
               offset: 10,
-              style: { textAnchor: "middle", fill: "#f97316" }
+              style: {
+                textAnchor: "middle",
+                fill: "#EE9B00", // Yellow Orange
+              },
             }}
           />
+
           <Tooltip />
           <Legend />
+
+          {/* Line for Magnitude */}
           <Line
             yAxisId="right"
             type="monotone"
             dataKey="magnitude_eq"
-            stroke="#f97316"
+            stroke="#EE9B00" // Yellow Orange
             name="Magnitude"
             dot={false}
           />
+
+          {/* Line for Depth */}
           <Line
             yAxisId="left"
             type="monotone"
             dataKey="depth_eq"
-            stroke="#3b82f6"
+            stroke="#098486" // Teal
             name="Depth"
             dot={false}
           />
