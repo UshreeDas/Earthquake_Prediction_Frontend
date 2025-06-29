@@ -17,12 +17,19 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap gap-4">
-            <button className="border-2 border-white px-6 py-3 rounded-lg text-white font-semibold hover:bg-white hover:text-red-600 transition">
-              <Link to="#">Make a Prediction</Link>
-            </button>
-            <button className="border-2 border-white px-6 py-3 rounded-lg text-white font-semibold hover:bg-white hover:text-red-600 transition">
-              <Link to="/FinalDashboard">View Historical Data</Link>
-            </button>
+            <Link
+              to="/PredictEarthquake"
+              className="border-2 border-white px-6 py-3 rounded-lg text-white font-semibold hover:bg-white hover:text-red-600 transition"
+            >
+              Make a Prediction
+            </Link>
+
+            <Link
+              to="/FinalDashboard"
+              className="border-2 border-white px-6 py-3 rounded-lg text-white font-semibold hover:bg-white hover:text-red-600 transition"
+            >
+              View Historical Data
+            </Link>
           </div>
         </div>
 
