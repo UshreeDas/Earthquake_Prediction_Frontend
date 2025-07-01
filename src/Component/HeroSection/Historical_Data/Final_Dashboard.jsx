@@ -8,7 +8,7 @@ import PieByMagnitude from "./PieByMagnitude";
 import BarByCategory from "./BarByCategory";
 import NotableEarthquakeTable from "./NotableEarthquakeTable";
 import DashboardSection from "../../../components/ui/DashboardSection";
-import LoadingSpinner from "@/components/ui/LoadingSpinner"; // adjust path if needed
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 export default function FinalDashboard() {
   const [data, setData] = useState([]);
@@ -68,106 +68,106 @@ export default function FinalDashboard() {
   }
 
   return (
-    <div className="p-4 space-y-6">
-      {/* Banner */}
+    <div className="relative">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b-0 px-6 py-4 shadow-md">
+  <div className="flex items-center justify-between flex-wrap gap-4">
+    
+    {/* Left Title */}
+    <div className="text-2xl font-bold text-gray-800">
+      Earthquake Dashboard
+    </div>
 
-
-      {/* Filters */}
-      <div className="flex flex-wrap items-center justify-start gap-x-10 gap-y-2 mb-5">
-        <div className="text-2xl font-bold text-gray-800 mb-4">
-          Earthquake Dashboard
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-lg">Filter by Year:</span>
-          <FilterControls
-            years={years}
-            selectedYear={selectedYear}
-            setSelectedYear={setSelectedYear}
-          />
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="font-semibold text-lg">Magnitude Category:</span>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="h-9 px-4 border rounded-md font-semibold text-black bg-white border-black-300 hover:border-red-400 focus:outline-none"
-          >
-            <option value="">All</option>
-            <option value="Moderate">Moderate</option>
-            <option value="Severe">Severe</option>
-            <option value="Strong">Strong</option>
-          </select>
-        </div>
-
-        <div className="flex">
-          <button
-            onClick={handleReset}
-            style={{ backgroundColor: "#EE9B00" }}
-            className="h-9 px-6 hover:brightness-110 text-white font-semibold rounded shadow-[0_0_10px_rgba(0,0,0,0.2)]"
-          >
-            Reset Filters
-          </button>
-
-        </div>
+    {/* Right Controls Grouped */}
+    <div className="flex flex-wrap items-center gap-4">
+      {/* Year Filter */}
+      <div className="flex items-center gap-2">
+        <span className="font-semibold text-sm">Filter by Year:</span>
+        <FilterControls
+          years={years}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
+        />
       </div>
 
-      {/* KPI Cards */}
-      <KPICards data={(selectedYear || selectedCategory) ? filtered : data} />
-
-      {/* 2-Column Grid: Bar & Pie */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* Bar chart */}
-        <div className="xl:col-span-2">
-          <DashboardSection
-            title="Earthquake Counts by Magnitude Range (Last 5 Years)"
-            className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
-          >
-            <BarByCategory data={filtered} />
-          </DashboardSection>
-        </div>
-
-        {/* Pie Chart */}
-        <div className="xl:col-span-1">
-          <DashboardSection
-            title="Distribution by Magnitude"
-            className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
-          >
-            <div className="flex flex-col items-center justify-center space-y-2">
-              <PieByMagnitude data={filtered} />
-            </div>
-          </DashboardSection>
-        </div>
+      {/* Magnitude Filter */}
+      <div className="flex items-center gap-2">
+        <span className="font-semibold text-sm">Magnitude:</span>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="h-9 px-4 border rounded-md font-semibold text-black bg-white border-[#005F73] hover:border-[#EE9B00] focus:outline-none"
+        >
+          <option value="">All</option>
+          <option value="Moderate">Moderate</option>
+          <option value="Severe">Severe</option>
+          <option value="Strong">Strong</option>
+        </select>
       </div>
 
-      {/* Full-width Line Chart */}
-      <DashboardSection
-        title="Total Earthquakes of Last 5 Years"
-        className="w-full mt-6 border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+      {/* Reset Button */}
+      <button
+        onClick={handleReset}
+        style={{ backgroundColor: "#EE9B00" }}
+        className="h-9 px-6 text-white font-semibold rounded shadow hover:brightness-110"
       >
-        <BarLineCharts data={filtered} />
-      </DashboardSection>
+        Reset Filters
+      </button>
+    </div>
+  </div>
+</div>
 
-      {/* Full-width Table */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
-        {/* Table */}
+      {/* Main Content Below Floating Header */}
+      <div className="pt-[120px] px-4 space-y-6">
+        <KPICards data={(selectedYear || selectedCategory) ? filtered : data} />
+
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-2">
+            <DashboardSection
+              title="Earthquake Counts by Magnitude Range (Last 5 Years)"
+              className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+            >
+              <BarByCategory data={filtered} />
+            </DashboardSection>
+          </div>
+
+          <div className="xl:col-span-1">
+            <DashboardSection
+              title="Distribution by Magnitude"
+              className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+            >
+              <div className="flex flex-col items-center justify-center space-y-2">
+                <PieByMagnitude data={filtered} />
+              </div>
+            </DashboardSection>
+          </div>
+        </div>
+
         <DashboardSection
-          title="Seismic HeatMap"
-          className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+          title="Total Earthquakes of Last 5 Years"
+          className="w-full mt-6 border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
         >
-          <HeatMap data={filtered} />
+          <BarLineCharts data={filtered} />
         </DashboardSection>
 
-        {/* Heat Map */}
-        <DashboardSection
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mt-6">
+          <div className="xl:col-span-2">
+          <DashboardSection
+            title="Seismic HeatMap"
+            className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+          >
+            <HeatMap data={filtered} />
+          </DashboardSection>
+          </div>
 
-          className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
-        >
-          <NotableEarthquakeTable
-            data={filtered}
-            isFiltered={!!(selectedYear || selectedCategory)}
-          />
-        </DashboardSection>
+          <DashboardSection
+            className="w-full border-none shadow-[0_0_20px_rgba(0,0,0,0.15)]"
+          >
+            <NotableEarthquakeTable
+              data={filtered}
+              isFiltered={!!(selectedYear || selectedCategory)}
+            />
+          </DashboardSection>
+        </div>
       </div>
     </div>
   );

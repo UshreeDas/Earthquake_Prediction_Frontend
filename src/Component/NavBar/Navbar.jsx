@@ -1,8 +1,6 @@
-// File: src/Component/NavBar/Navbar.jsx
 import React, { useState } from "react";
-import { Link } from "react-router-dom"; // ✅ Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
-import historicalData from "../HeroSection/Historical_Data/Final_Dashboard"
 import {
   FaBars,
   FaTimes,
@@ -37,7 +35,7 @@ export default function Navbar() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 text-base font-semibold">
             <Link to="/" className="hover:underline">Home</Link>
-            <a href="#prediction" className="hover:underline">Prediction</a>
+            <Link to="/PredictEarthquake" className="hover:underline">Prediction</Link>
             <Link to="/FinalDashboard" className="hover:underline">Historical Data</Link>
             <a href="#about" className="hover:underline">About</a>
           </nav>
@@ -61,7 +59,7 @@ export default function Navbar() {
             </div>
             <div className="flex items-center space-x-3">
               <FaChartLine />
-              <a href="#prediction" onClick={() => setIsOpen(false)} className="hover:underline">Prediction</a>
+              <Link to="/PredictEarthquake" onClick={() => setIsOpen(false)} className="hover:underline">Prediction</Link>
             </div>
             <div className="flex items-center space-x-3">
               <FaHistory />
