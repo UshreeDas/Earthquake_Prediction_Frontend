@@ -1,26 +1,19 @@
-// File: src/components/ui/SidebarLayout.jsx
 import { Link, useLocation } from "react-router-dom";
+import Logo from "../../assets/logo.svg"
 import {
   FaChartLine,
   FaBolt,
   FaArrowLeft,
   FaChevronLeft,
   FaChevronRight,
+  FaBars,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 
 export default function SidebarLayout({ children }) {
   const location = useLocation();
   const [collapsed, setCollapsed] = useState(false);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("sidebar-collapsed");
-    if (stored === "true") setCollapsed(true);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("sidebar-collapsed", collapsed.toString());
-  }, [collapsed]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const sidebarItems = [
     {
@@ -35,32 +28,74 @@ export default function SidebarLayout({ children }) {
     },
   ];
 
-  return (
-    <div className="flex min-h-screen">
-      {/* Sidebar (Fixed) */}
-      <div
-        className={`bg-black text-white h-screen sticky top-0 transition-all duration-300 ease-in-out ${
-          collapsed ? "w-16" : "w-64"
-        } shadow-xl flex flex-col justify-between`}
-      >
-        {/* Top: Header + Nav */}
-        <div>
-          {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-700">
-            {!collapsed && (
-              <h2 className="text-lg font-bold tracking-wide">
-                Bhūkamp Sūchak
-              </h2>
-            )}
-            <button
-              onClick={() => setCollapsed(!collapsed)}
-              className="text-gray-300 hover:text-white"
-            >
-              {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
-            </button>
-          </div>
+  useEffect(() => {
+    const stored = localStorage.getItem("sidebar-collapsed");
+    if (window.innerWidth < 768) {
+      setCollapsed(true);
+    } else if (stored === "true") {
+      setCollapsed(true);
+    }
 
-          {/* Navigation */}
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) setCollapsed(true);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sidebar-collapsed", collapsed.toString());
+  }, [collapsed]);
+
+  return (
+    <div className="relative min-h-screen bg-gray-100">
+      {/* Hamburger Button for Mobile */}
+      {isMobile && (
+        <button
+          onClick={() => setCollapsed(false)}
+          className="fixed top-4 left-4 z-50 text-black bg-white p-2 rounded-full shadow-lg"
+        >
+          <FaBars />
+        </button>
+      )}
+
+      {/* Sidebar */}
+      <div
+        className={`bg-black text-white h-screen fixed top-0 left-0 z-40 transition-all duration-300 ease-in-out transform
+          ${collapsed ? "-translate-x-full md:translate-x-0 md:w-16" : "translate-x-0 w-64"} 
+          shadow-xl flex flex-col justify-between`}
+      >
+        <div>
+          {/* Top: Logo + Title + Collapse Button */}
+<div className="flex flex-col items-center border-b border-gray-700 px-4 py-6 space-y-4">
+  {/* Logo */}
+  <img
+    src={Logo}
+    alt="Logo"
+    className={`transition-all duration-300 ${
+      collapsed ? "h-0 opacity-0" : "h-20 opacity-100"
+    }`}
+  />
+
+  {/* Title + Collapse */}
+  <div className="flex items-center w-full">
+    {!collapsed && (
+      <h2 className="text-lg font-bold text-center tracking-wide text-white">
+        Bhūkamp Sūchak
+      </h2>
+    )}
+    <button
+      onClick={() => setCollapsed(!collapsed)}
+      className="text-gray-300 hover:text-white ml-auto"
+    >
+      {collapsed ? <FaChevronRight /> : <FaChevronLeft />}
+    </button>
+  </div>
+</div>
+
           <ul className="px-2 py-4 space-y-2">
             {sidebarItems.map((item) => (
               <li key={item.path}>
@@ -83,7 +118,7 @@ export default function SidebarLayout({ children }) {
           </ul>
         </div>
 
-        {/* Bottom: Back to Home */}
+        {/* Bottom Link */}
         <div className="p-4 border-t border-gray-700">
           <Link
             to="/"
@@ -98,8 +133,20 @@ export default function SidebarLayout({ children }) {
         </div>
       </div>
 
-      {/* Scrollable Main Content */}
-      <main className="flex-1 overflow-y-auto p-6 bg-gray-100">
+      {/* Overlay (Mobile) */}
+      {!collapsed && isMobile && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-40 z-30"
+          onClick={() => setCollapsed(true)}
+        />
+      )}
+
+      {/* Main content */}
+      <main
+        className={`transition-all duration-300 min-h-screen ${
+          collapsed ? "ml-0 md:ml-16" : "ml-0 md:ml-64"
+        } p-4`}
+      >
         {children}
       </main>
     </div>

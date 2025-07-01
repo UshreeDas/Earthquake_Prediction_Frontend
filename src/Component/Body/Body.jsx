@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Line } from 'react-chartjs-2';
+import { Link } from "react-router-dom";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -95,7 +96,7 @@ export default function Body() {
               </div>
             </div>
           ))}
-          <a href="#" target="_blank" className="text-orange-500 mt-2 inline-block">View complete historical data →</a>
+          <Link to="/FinalDashboard" className="text-orange-500 mt-2 inline-block">View complete historical data →</Link>
         </CardContent>
       </Card>
 
